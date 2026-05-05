@@ -6,7 +6,7 @@ Aplicación web para gestionar videojuegos y reseñas. Permite a los usuarios re
 
 - Sistema completo de autenticación (registro, login, logout)
 - CRUD de videojuegos con imágenes
-- Sistema de reseñas con calificación (1-5 estrellas)
+- Sistema de reseñas con calificación usando estrellas interactivas (1-5)
 - Perfil de usuario con historial de actividad
 - Búsqueda de juegos por título, descripción y categoría
 - Paginación en listados
@@ -14,6 +14,9 @@ Aplicación web para gestionar videojuegos y reseñas. Permite a los usuarios re
 - Interfaz responsive con Bootstrap 5
 - Tema claro/oscuro con persistencia en cookies
 - Rating promedio calculado automáticamente
+- Logo y favicon personalizados
+- Estrellas interactivas con hover effect para rating
+- Validación de formularios en frontend y backend
 
 ## Tecnología utilizada
 
@@ -29,7 +32,11 @@ Aplicación web para gestionar videojuegos y reseñas. Permite a los usuarios re
 - Docker
 - Docker Compose
 
-### Pasos de instalación
+### Qué es requirements.txt
+
+El archivo `requirements.txt` contiene todas las dependencias (librerías Python) necesarias para que el proyecto funcione. Especifica el nombre y versión exacta de cada paquete. Esto garantiza que tanto en desarrollo como en producción se usen las mismas versiones.
+
+### Instalación con Docker (recomendado)
 
 1. Navegar al directorio del proyecto:
 ```bash
@@ -41,9 +48,14 @@ cd /home/lucas/Escritorio/GameHub
 docker-compose up --build
 ```
 
-Este comando construirá la imagen, iniciará PostgreSQL y ejecutará las migraciones automáticamente. La aplicación estará disponible en http://localhost:8000
+Este comando automáticamente:
+- Construye la imagen Docker
+- Instala las dependencias del `requirements.txt`
+- Inicia PostgreSQL
+- Ejecuta las migraciones
+- Inicia el servidor en http://localhost:8000
 
-3. Crear superusuario (en otra terminal):
+3. En otra terminal, crear superusuario:
 ```bash
 docker compose exec web python manage.py createsuperuser
 ```
@@ -55,6 +67,36 @@ docker compose exec web python manage.py createsuperuser
 5. Detener los contenedores:
 ```bash
 docker-compose down
+```
+
+### Instalación local (desarrollo sin Docker)
+
+Si prefieres trabajar sin Docker necesitas tener instalado Python 3.12:
+
+1. Crear entorno virtual:
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+2. Instalar dependencias desde requirements.txt:
+```bash
+pip install -r requirements.txt
+```
+
+3. Aplicar migraciones:
+```bash
+python manage.py migrate
+```
+
+4. Crear superusuario:
+```bash
+python manage.py createsuperuser
+```
+
+5. Ejecutar servidor:
+```bash
+python manage.py runserver
 ```
 
 ## Estructura del proyecto
@@ -94,10 +136,12 @@ Gestión completa de videojuegos (CRUD).
 
 ### App Reviews
 Sistema de reseñas y calificaciones.
-- Crear reseña con calificación (1-5 estrellas) y comentario
+- Crear reseña con calificación (1-5 estrellas) mediante interfaz visual de estrellas
+- Las estrellas tienen hover effect: se rellenan de amarillo al pasar el ratón
 - Un usuario solo puede tener una reseña por juego
 - Editar/eliminar propia reseña
 - Rating promedio calculado automáticamente
+- Comentarios opcionales para cada reseña
 
 ## URLs principales
 
@@ -123,6 +167,16 @@ Sistema de reseñas y calificaciones.
 
 ## Configuración
 
+### Variables de Entorno (.env)
+
+El archivo `.env` contiene variables sensibles del proyecto:
+- `DEBUG`: Modo debug (True en desarrollo, False en producción)
+- `SECRET_KEY`: Clave secreta de Django para seguridad
+- `DATABASE_URL`: Conexión a PostgreSQL en Docker
+- `ALLOWED_HOSTS`: Hosts permitidos para acceder a la aplicación
+
+No debe compartirse en control de versiones (está en .gitignore).
+
 ### Base de datos
 - En desarrollo local: SQLite (db.sqlite3)
 - En producción con Docker: PostgreSQL
@@ -137,23 +191,47 @@ Sistema de reseñas y calificaciones.
 - Se carga automáticamente al abrir la aplicación
 - Se puede cambiar desde el perfil de usuario
 
-## Comandos útiles (desarrollo local)
+## Comandos útiles
+
+### Sin Docker (desarrollo local)
 
 ```bash
-# Crear migraciones
+# Instalar dependencias de requirements.txt
+pip install -r requirements.txt
+
+# Crear migraciones después de cambiar modelos
 python manage.py makemigrations
 
-# Aplicar migraciones
+# Aplicar migraciones a la base de datos
 python manage.py migrate
 
-# Crear superusuario
+# Crear superusuario para acceder a /admin
 python manage.py createsuperuser
 
-# Ejecutar servidor
+# Ejecutar servidor de desarrollo
 python manage.py runserver
 
-# Entrar a shell de Django
+# Entrar a consola interactiva de Django
 python manage.py shell
+```
+
+### Con Docker
+
+```bash
+# Construir y ejecutar
+docker-compose up --build
+
+# Solo iniciar (sin rebuild)
+docker-compose up
+
+# Ejecutar comando en el contenedor web
+docker compose exec web python manage.py makemigrations
+
+# Ver logs en tiempo real
+docker-compose logs -f web
+
+# Detener
+docker-compose down
 ```
 
 ## Panel de administración
@@ -179,8 +257,10 @@ El panel de administración en `/admin` permite:
 - El proyecto usa SQLite en desarrollo local para simplificar la configuración
 - Docker Compose incluye PostgreSQL configurado para producción
 - Las imágenes se almacenan en la carpeta `media/games/`
-- Los estilos CSS se encuentran en `static/css/estilos.css`
+- Los estilos CSS personalizados se encuentran en `static/css/estilos.css`
 - Bootstrap 5 se carga desde CDN
+- El logo de la aplicación (favicon) se encuentra en `static/imgs/imagen_logo.jpeg`
+- Las estrellas interactivas de reseña usan CSS personalizado sin librerías externas
 
 ## Requisitos de usuario
 

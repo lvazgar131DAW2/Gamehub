@@ -18,7 +18,7 @@
                                 </h5>
                                 <span class="rating">{{ review.rating }}★</span>
                                 <p class="card-text mt-2">{{ review.comment }}</p>
-                                <small class="text-muted">{{ review.created_at|date:"d/m/Y H:i" }}</small>
+                                <small class="text-white">{{ review.created_at|date:"d/m/Y H:i" }}</small>
                             </div>
                             <div>
                                 <a href="{% url 'reviews:review_update' review.pk %}" class="btn btn-sm btn-outline-warning">Editar</a>

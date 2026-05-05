@@ -23,7 +23,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ game.title }}</h5>
                         <p class="card-text">{{ game.description|truncatewords:10 }}</p>
-                        <small class="text-muted">{{ game.category|title }}</small>
+                        <small class="text-white">{{ game.category|title }}</small>
                     </div>
                     <div class="card-footer">
                         <a href="{% url 'games:game_detail' game.pk %}" class="btn btn-sm btn-outline-primary">Ver</a>

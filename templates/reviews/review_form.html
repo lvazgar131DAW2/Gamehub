@@ -2,6 +2,36 @@
 
 {% block title %}{% if form.instance.pk %}Editar{% else %}Crear{% endif %} Reseña - GameHub{% endblock %}
 
+{% block extra_css %}
+<style>
+    .star-rating {
+        display: flex;
+        gap: 8px;
+        font-size: 40px;
+        cursor: pointer;
+    }
+
+    .star {
+        color: #555;
+        transition: color 0.1s ease;
+        user-select: none;
+    }
+
+    .star:hover,
+    .star.active {
+        color: #ffc107;
+    }
+
+    body.light-mode .star {
+        color: #999;
+    }
+
+    input[name="rating"] {
+        display: none !important;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-8">
@@ -22,21 +52,18 @@
                 <form method="post">
                     {% csrf_token %}
 
-                    <!-- Rating con radio buttons -->
                     <div class="mb-4">
                         <label class="form-label">{{ form.rating.label }}</label>
-                        <div class="rating-input">
-                            {% for radio in form.rating %}
-                                <div class="form-check form-check-inline">
-                                    {{ radio.tag }}
-                                    <label class="form-check-label" for="{{ radio.id_for_label }}">
-                                        {{ radio.choice_label }}
-                                    </label>
-                                </div>
+                        <div class="star-rating" id="star-rating">
+                            {% for i in "12345" %}
+                                <span class="star" data-value="{{ i }}">★</span>
                             {% endfor %}
                         </div>
+                        {% for field in form.rating %}
+                            {{ field }}
+                        {% endfor %}
                         {% if form.rating.errors %}
-                            <div class="invalid-feedback d-block">
+                            <div class="invalid-feedback d-block mt-2">
                                 {{ form.rating.errors }}
                             </div>
                         {% endif %}
@@ -69,5 +96,58 @@
         </div>
     </div>
 </div>
-{% endblock %}
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const stars = document.querySelectorAll('.star');
+        const ratingInputs = document.querySelectorAll('input[name="rating"]');
+        const starRating = document.getElementById('star-rating');
+
+        function setActiveStars(value) {
+            stars.forEach(star => {
+                if (parseInt(star.dataset.value) <= value) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        function setRatingValue(value) {
+            ratingInputs.forEach(input => {
+                if (input.value == value) {
+                    input.checked = true;
+                }
+            });
+        }
+
+        stars.forEach(star => {
+            star.addEventListener('mouseover', function() {
+                const value = this.dataset.value;
+                setActiveStars(value);
+            });
+
+            star.addEventListener('click', function(e) {
+                e.preventDefault();
+                const value = this.dataset.value;
+                setRatingValue(value);
+                setActiveStars(value);
+            });
+        });
+
+        starRating.addEventListener('mouseleave', function() {
+            const checkedInput = document.querySelector('input[name="rating"]:checked');
+            if (checkedInput) {
+                setActiveStars(checkedInput.value);
+            } else {
+                stars.forEach(star => star.classList.remove('active'));
+            }
+        });
+
+        const checkedInput = document.querySelector('input[name="rating"]:checked');
+        if (checkedInput) {
+            setActiveStars(checkedInput.value);
+        }
+    });
+</script>
+{% endblock %}
