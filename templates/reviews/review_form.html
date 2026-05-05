@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}{% if form.instance.pk %}Editar{% else %}Crear{% endif %} Reseña - GameHub{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">
+                    {% if form.instance.pk %}
+                        Editar Reseña
+                    {% else %}
+                        Crear Reseña
+                    {% endif %}
+                </h2>
+
+                <p class="text-white">
+                    <strong>Juego:</strong> <a href="{% url 'games:game_detail' game.pk %}">{{ game.title }}</a>
+                </p>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <!-- Rating con radio buttons -->
+                    <div class="mb-4">
+                        <label class="form-label">{{ form.rating.label }}</label>
+                        <div class="rating-input">
+                            {% for radio in form.rating %}
+                                <div class="form-check form-check-inline">
+                                    {{ radio.tag }}
+                                    <label class="form-check-label" for="{{ radio.id_for_label }}">
+                                        {{ radio.choice_label }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% if form.rating.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ form.rating.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.comment.id_for_label }}" class="form-label">{{ form.comment.label }}</label>
+                        {{ form.comment }}
+                        {% if form.comment.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ form.comment.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            {% if form.instance.pk %}Guardar cambios{% else %}Crear Reseña{% endif %}
+                        </button>
+                        <a href="{% url 'games:game_detail' game.pk %}" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

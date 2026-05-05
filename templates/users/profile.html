@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Mi Perfil - GameHub{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ profile_user.username }}</h5>
+                <p class="card-text">
+                    <strong>Email:</strong><br>{{ profile_user.email }}
+                </p>
+                {% if profile_user.first_name or profile_user.last_name %}
+                    <p class="card-text">
+                        <strong>Nombre:</strong><br>
+                        {{ profile_user.first_name }} {{ profile_user.last_name }}
+                    </p>
+                {% endif %}
+                <a href="{% url 'users:my_games' %}" class="btn btn-primary btn-sm w-100 mb-2">Mis Juegos</a>
+                <a href="{% url 'users:my_reviews' %}" class="btn btn-info btn-sm w-100 mb-2">Mis Reseñas</a>
+                <button onclick="toggleTheme()" class="btn btn-outline-warning btn-sm w-100">🌙 Cambiar Tema</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <h2>Mis Últimos Juegos</h2>
+        {% if my_games %}
+            <div class="row">
+                {% for game in my_games %}
+                    <div class="col-md-6 mb-3">
+                        <div class="card">
+                            {% if game.image %}
+                                <img src="{{ game.image.url }}" class="card-img-top" alt="{{ game.title }}" style="height: 200px; object-fit: cover;">
+                            {% else %}
+                                <div class="card-img-top bg-secondary" style="height: 200px; display: flex; align-items: center; justify-content: center; color: white;">
+                                    Sin imagen
+                                </div>
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ game.title }}</h5>
+                                <p class="card-text">{{ game.description|truncatewords:15 }}</p>
+                                <a href="{% url 'games:game_detail' game.pk %}" class="btn btn-sm btn-outline-primary">Ver Detalle</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="alert alert-info">No has creado juegos aún</p>
+        {% endif %}
+
+        <h2 class="mt-5">Mis Últimas Reseñas</h2>
+        {% if my_reviews %}
+            <div class="row">
+                {% for review in my_reviews %}
+                    <div class="col-md-12 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ review.game.title }}</h5>
+                                <span class="rating">{{ review.rating }}★</span>
+                                <p class="card-text">{{ review.comment }}</p>
+                                <small class="text-muted">{{ review.created_at|date:"d/m/Y H:i" }}</small>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="alert alert-info">No has escrito reseñas aún</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+

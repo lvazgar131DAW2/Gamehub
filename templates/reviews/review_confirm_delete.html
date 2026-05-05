@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Eliminar Reseña - GameHub{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-danger">
+            <div class="card-body">
+                <h2 class="card-title text-danger">Eliminar Reseña</h2>
+
+                <p class="alert alert-warning">
+                    ¿Estás seguro de que quieres eliminar tu reseña de "<strong>{{ game.title }}</strong>"?
+                </p>
+                <p class="text-muted">Esta acción no se puede deshacer.</p>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-danger">Eliminar Reseña</button>
+                        <a href="{% url 'games:game_detail' game.pk %}" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

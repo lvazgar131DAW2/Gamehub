@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}{{ game.title }} - GameHub{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        {% if game.image %}
+            <img src="{{ game.image.url }}" alt="{{ game.title }}" class="img-fluid rounded mb-4" style="max-height: 400px; object-fit: cover; width: 100%;">
+        {% else %}
+            <div class="bg-secondary rounded mb-4" style="height: 400px; display: flex; align-items: center; justify-content: center; color: white;">
+                Sin imagen
+            </div>
+        {% endif %}
+
+        <h1>{{ game.title }}</h1>
+
+        <p class="text-white">
+            <strong>Por:</strong> {{ game.created_by.username }}<br>
+            <strong>Categoría:</strong> {{ game.category|title }}<br>
+            {% if game.release_date %}
+                <strong>Fecha de Lanzamiento:</strong> {{ game.release_date|date:"d/m/Y" }}
+            {% endif %}
+        </p>
+
+        <p>{{ game.description }}</p>
+
+        {% if user.is_authenticated and user == game.created_by %}
+            <div class="mb-4">
+                <a href="{% url 'games:game_update' game.pk %}" class="btn btn-warning">Editar</a>
+                <a href="{% url 'games:game_delete' game.pk %}" class="btn btn-danger">Eliminar</a>
+            </div>
+        {% endif %}
+
+        <h3 class="mt-5">Reseñas ({{ game.reviews.all.count }})</h3>
+
+        {% if user.is_authenticated %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Escribe una reseña</h5>
+                    <a href="{% url 'reviews:review_create' game.pk %}" class="btn btn-primary">+ Crear Reseña</a>
+                </div>
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                <a href="{% url 'users:login' %}">Inicia sesión</a> para escribir una reseña
+            </div>
+        {% endif %}
+
+        <!-- Listado de reseñas -->
+        {% for review in game.reviews.all %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h5 class="card-title">{{ review.user.username }}</h5>
+                            <span class="rating">{{ review.rating }}★</span>
+                            <p class="card-text">{{ review.comment }}</p>
+                            <small class="text-muted">{{ review.created_at|date:"d/m/Y H:i" }}</small>
+                        </div>
+                        {% if user == review.user %}
+                            <div>
+                                <a href="{% url 'reviews:review_update' review.pk %}" class="btn btn-sm btn-warning">Editar</a>
+                                <a href="{% url 'reviews:review_delete' review.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-white">No hay reseñas aún</p>
+        {% endfor %}
+    </div>
+
+    <div class="col-md-4">
+        <div class="card sticky-top" style="top: 20px;">
+            <div class="card-body">
+                <h5 class="card-title">Información</h5>
+                <p class="card-text">
+                    <strong>Reseñas:</strong> {{ game.reviews.all.count }}<br>
+                    <strong>Calificación:</strong> <span class="rating">{{ game.get_average_rating }}★</span><br>
+                    <strong>Categoría:</strong> {{ game.category|title }}<br>
+                    {% if game.release_date %}
+                        <strong>Lanzamiento:</strong> {{ game.release_date|date:"d/m/Y" }}
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
