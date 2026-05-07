@@ -11,22 +11,22 @@ class GameAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at', 'rating_info', 'image_preview')
 
     fieldsets = (
-        ('📌 Información Básica', {
+        ('Información Básica', {
             'fields': ('title', 'category', 'description'),
             'description': 'Información principal del videojuego'
         }),
-        ('🎨 Multimedia', {
+        ('Multimedia', {
             'fields': ('image', 'image_preview'),
         }),
-        ('📅 Detalles', {
+        ('Detalles', {
             'fields': ('release_date', 'created_by'),
         }),
-        ('⭐ Estadísticas', {
+        ('Estadísticas', {
             'fields': ('rating_info',),
             'classes': ('wide',),
             'description': 'Información calculada automáticamente'
         }),
-        ('🕐 Registro', {
+        ('Registro', {
             'fields': ('created_at', 'updated_at'),
             'classes': ('collapse',),
             'description': 'Fechas de creación y última modificación'
@@ -57,7 +57,6 @@ class GameAdmin(admin.ModelAdmin):
     title_colored.short_description = 'Título'
 
     def category_colored(self, obj):
-        """Muestra la categoría con badge de color"""
         colors = {
             'accion': '#FF6B6B',
             'aventura': '#4ECDC4',
@@ -76,14 +75,12 @@ class GameAdmin(admin.ModelAdmin):
     category_colored.short_description = 'Categoría'
 
     def rating_display(self, obj):
-        """Muestra el rating con estrellas"""
         rating = obj.get_average_rating()
         stars = '⭐' * int(rating) + '☆' * (5 - int(rating))
         return format_html('{} ({})', stars, rating)
     rating_display.short_description = 'Rating'
 
     def reviews_count(self, obj):
-        """Muestra número de reseñas con color"""
         count = obj.get_review_count()
         if count == 0:
             color = '#D3D3D3'
@@ -99,7 +96,6 @@ class GameAdmin(admin.ModelAdmin):
     reviews_count.short_description = 'Reseñas'
 
     def rating_info(self, obj):
-        """Muestra información detallada del rating"""
         count = obj.get_review_count()
         rating = obj.get_average_rating()
         if count == 0:
@@ -108,7 +104,6 @@ class GameAdmin(admin.ModelAdmin):
     rating_info.short_description = 'Información de Rating'
 
     def image_preview(self, obj):
-        """Muestra preview de la imagen"""
         if obj.image:
             return format_html(
                 '<img src="{}" style="max-width: 300px; max-height: 300px; border-radius: 5px;" />',
@@ -118,18 +113,16 @@ class GameAdmin(admin.ModelAdmin):
     image_preview.short_description = 'Vista Previa'
 
     def mark_as_featured(self, request, queryset):
-        """Acción: marcar como destacado (ejemplo)"""
         count = queryset.count()
         self.message_user(request, f'{count} juego{"s" if count != 1 else ""} seleccionado{"s" if count != 1 else ""}')
     mark_as_featured.short_description = '⭐ Marcar como destacado'
 
     def clear_image(self, request, queryset):
-        """Acción: eliminar imagen de juegos seleccionados"""
         count = queryset.count()
         for game in queryset:
             if game.image:
                 game.image.delete()
         queryset.update(image='')
         self.message_user(request, f'Imagen eliminada de {count} juego{"s" if count != 1 else ""}')
-    clear_image.short_description = '🗑️ Eliminar imagen'
+    clear_image.short_description = 'Eliminar imagen'
 

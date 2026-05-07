@@ -30,11 +30,9 @@ class Game(models.Model):
         return self.title
 
     def get_average_rating(self):
-        """Calcula el rating promedio del juego"""
         avg = self.reviews.aggregate(Avg('rating'))['rating__avg']
         return round(avg, 1) if avg else 0
 
     def get_review_count(self):
-        """Devuelve el número de reseñas"""
         return self.reviews.count()
 

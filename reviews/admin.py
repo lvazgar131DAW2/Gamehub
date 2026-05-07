@@ -11,17 +11,17 @@ class ReviewAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at', 'rating_display', 'comment_formatted')
 
     fieldsets = (
-        ('👤 Autor y Juego', {
+        ('Autor y Juego', {
             'fields': ('game', 'user'),
             'description': 'Usuario que escribió la reseña y juego'
         }),
-        ('⭐ Calificación', {
+        ('Calificación', {
             'fields': ('rating', 'rating_display'),
         }),
-        ('💬 Comentario', {
+        ('Comentario', {
             'fields': ('comment', 'comment_formatted'),
         }),
-        ('🕐 Registro', {
+        ('Registro', {
             'fields': ('created_at', 'updated_at'),
             'classes': ('collapse',),
             'description': 'Fechas de creación y última modificación'
@@ -33,7 +33,6 @@ class ReviewAdmin(admin.ModelAdmin):
     actions = ['approve_reviews', 'highlight_positive', 'highlight_negative']
 
     def user_link(self, obj):
-        """Muestra usuario con link"""
         return format_html(
             '<a href="/admin/auth/user/{}/change/"><strong>{}</strong></a>',
             obj.user.id,
@@ -42,7 +41,6 @@ class ReviewAdmin(admin.ModelAdmin):
     user_link.short_description = 'Usuario'
 
     def game_link(self, obj):
-        """Muestra juego con link"""
         return format_html(
             '<a href="/admin/games/game/{}/change/"><strong>{}</strong></a>',
             obj.game.id,
@@ -51,7 +49,6 @@ class ReviewAdmin(admin.ModelAdmin):
     game_link.short_description = 'Juego'
 
     def rating_stars(self, obj):
-        """Muestra rating con estrellas de color"""
         stars = '⭐' * obj.rating
         if obj.rating <= 2:
             color = '#FF6B6B'
@@ -67,7 +64,6 @@ class ReviewAdmin(admin.ModelAdmin):
     rating_stars.short_description = 'Rating'
 
     def comment_preview(self, obj):
-        """Muestra preview del comentario (primeras 50 caracteres)"""
         preview = obj.comment[:50]
         if len(obj.comment) > 50:
             preview += '...'
@@ -75,19 +71,17 @@ class ReviewAdmin(admin.ModelAdmin):
     comment_preview.short_description = 'Comentario'
 
     def rating_display(self, obj):
-        """Muestra información del rating"""
         ratings = {
-            1: '1 - Muy malo ❌',
-            2: '2 - Malo ⚠️',
-            3: '3 - Regular 😐',
-            4: '4 - Bueno ✅',
-            5: '5 - Excelente ⭐⭐⭐',
+            1: '1 - Muy malo',
+            2: '2 - Malo',
+            3: '3 - Regular',
+            4: '4 - Bueno',
+            5: '5 - Excelente',
         }
         return ratings.get(obj.rating, 'Desconocido')
     rating_display.short_description = 'Descripción del Rating'
 
     def comment_formatted(self, obj):
-        """Muestra el comentario completo formateado"""
         return format_html(
             '<div style="white-space: pre-wrap; border: 1px solid #ddd; padding: 10px; border-radius: 5px; background-color: #f9f9f9;">{}</div>',
             obj.comment
@@ -95,20 +89,17 @@ class ReviewAdmin(admin.ModelAdmin):
     comment_formatted.short_description = 'Comentario Completo'
 
     def approve_reviews(self, request, queryset):
-        """Acción: marcar reseñas como aprobadas"""
         count = queryset.count()
-        self.message_user(request, f'✅ {count} reseña{"s" if count != 1 else ""} aprobada{"s" if count != 1 else ""}')
-    approve_reviews.short_description = '✅ Aprobar reseña'
+        self.message_user(request, f'{count} reseña{"s" if count != 1 else ""} aprobada{"s" if count != 1 else ""}')
+    approve_reviews.short_description = 'Aprobar reseña'
 
     def highlight_positive(self, request, queryset):
-        """Acción: filtrar reseñas positivas (4-5 estrellas)"""
         count = queryset.filter(rating__gte=4).count()
-        self.message_user(request, f'😊 {count} reseña{"s" if count != 1 else ""} positiva{"s" if count != 1 else ""}')
-    highlight_positive.short_description = '😊 Mostrar positivas (4-5★)'
+        self.message_user(request, f'{count} reseña{"s" if count != 1 else ""} positiva{"s" if count != 1 else ""}')
+    highlight_positive.short_description = 'Mostrar positivas (4-5★)'
 
     def highlight_negative(self, request, queryset):
-        """Acción: filtrar reseñas negativas (1-2 estrellas)"""
         count = queryset.filter(rating__lte=2).count()
-        self.message_user(request, f'😞 {count} reseña{"s" if count != 1 else ""} negativa{"s" if count != 1 else ""}')
-    highlight_negative.short_description = '😞 Mostrar negativas (1-2★)'
+        self.message_user(request, f'{count} reseña{"s" if count != 1 else ""} negativa{"s" if count != 1 else ""}')
+    highlight_negative.short_description = 'Mostrar negativas (1-2★)'
 

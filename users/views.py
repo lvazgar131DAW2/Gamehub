@@ -26,15 +26,11 @@ class CustomLoginView(LoginView):
         remember_me = form.cleaned_data.get('remember_me')
         user = form.get_user()
 
-        # Autenticar e iniciar sesión
         login(self.request, user)
 
-        # Remember me: establecer sesión persistente
         if remember_me:
-            # 30 días en segundos
             self.request.session.set_expiry(30 * 24 * 60 * 60)
         else:
-            # Cerrar sesión cuando cierre el navegador
             self.request.session.set_expiry(0)
 
         return redirect(self.get_success_url())
@@ -56,9 +52,7 @@ class ProfileView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Últimos 6 juegos del usuario
         context['my_games'] = self.request.user.games.all()[:6]
-        # Últimas 6 reseñas del usuario
         context['my_reviews'] = self.request.user.reviews.all()[:6]
         return context
 
