@@ -236,3 +236,4 @@ class CustomUserAdmin(BaseUserAdmin):
         )
     reviews_stats.short_description = 'Reseñas Escritas'
 
+

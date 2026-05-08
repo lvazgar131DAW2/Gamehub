@@ -6,265 +6,133 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}GameHub{% endblock %}</title>
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="icon" href="{% static 'imgs/imagen_logo.jpeg' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="icon" href="{% static 'imgs/imagen_logo.jpeg' %}" type="image/x-icon">
-
-<style>
-    body.dark-mode {
-        background: linear-gradient(180deg, #0f1c2e 0%, #0a1626 100%);
-        color: white;
-    }
-
-    body.light-mode {
-        background: linear-gradient(180deg, #f5f5f5 0%, #e8e8e8 100%);
-        color: #333;
-    }
-
-    h1, h2, h3 {
-        font-weight: 700;
-    }
-
-    .subtitle {
-        color: white;
-    }
-
-    body.dark-mode .navbar {
-        background-color: #081222;
-        border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-
-    body.light-mode .navbar {
-        background-color: #f8f9fa;
-        border-bottom: 1px solid rgba(0,0,0,0.1);
-    }
-
-    .navbar-brand {
-        font-weight: bold;
-        color: #ff7b00 !important;
-    }
-
-    body.dark-mode .nav-link {
-        color: #cbd5e1 !important;
-    }
-
-    body.light-mode .nav-link {
-        color: #555 !important;
-    }
-
-    .nav-link:hover {
-        color: white !important;
-    }
-
-    body.light-mode .nav-link:hover {
-        color: #ff7b00 !important;
-    }
-
-    body.dark-mode .card {
-        color: white;
-        background-color: #1c2a3a;
-        border-radius: 16px;
-        border: none;
-        overflow: hidden;
-        transition: all 0.3s ease;
-    }
-
-    body.light-mode .card {
-        color: #333;
-        background-color: #ffffff;
-        border-radius: 16px;
-        border: 1px solid #ddd;
-        overflow: hidden;
-        transition: all 0.3s ease;
-    }
-
-    .card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-    }
-
-    body.light-mode .card:hover {
-        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    }
-
-    .card img {
-        height: 180px;
-        object-fit: cover;
-        border-radius: 12px;
-    }
-
-    .btn-primary {
-        background-color: #ff7b00;
-        border: none;
-    }
-
-    .btn-primary:hover {
-        background-color: #e66a00;
-    }
-
-    .rating {
-        color: white;
-        font-weight: bold;
-    }
-
-    body.light-mode .rating {
-        color: #ff7b00;
-    }
-
-    body.dark-mode footer {
-        background-color: #081222;
-        color: #cbd5e1;
-        margin-top: 60px;
-        padding: 40px 0;
-    }
-
-    body.light-mode footer {
-        background-color: #f8f9fa;
-        color: #555;
-        margin-top: 60px;
-        padding: 40px 0;
-        border-top: 1px solid #ddd;
-    }
-
-    footer a {
-        color: #cbd5e1;
-        text-decoration: none;
-    }
-
-    body.light-mode footer a {
-        color: #555;
-    }
-
-    footer a:hover {
-        color: white;
-    }
-
-    body.light-mode footer a:hover {
-        color: #ff7b00;
-    }
-
-    .theme-toggle-btn {
-        background: none;
-        border: 1px solid #ff7b00;
-        color: #ff7b00;
-        padding: 6px 12px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 14px;
-        transition: all 0.3s ease;
-    }
-
-    .theme-toggle-btn:hover {
-        background-color: #ff7b00;
-        color: white;
-    }
-
-    body.light-mode .text-white {
-        color: #333 !important;
-    }
-
-    body.light-mode .text-muted {
-        color: #888 !important;
-    }
-
-    body.light-mode .card-title {
-        color: #333;
-    }
-
-    body.light-mode .card-text {
-        color: #666;
-    }
-
-    body.light-mode .alert-info {
-        background-color: #d1ecf1;
-        color: #0c5460;
-        border: 1px solid #bee5eb;
-    }
-
-    body.light-mode .dropdown-menu {
-        background-color: #f8f9fa;
-        border: 1px solid #ddd;
-    }
-
-    body.light-mode .dropdown-item {
-        color: #333;
-    }
-
-    body.light-mode .dropdown-item:hover {
-        background-color: #e9ecef;
-        color: #ff7b00;
-    }
-</style>
-
-{% block extra_css %}{% endblock %}
-
-
+    {% block extra_css %}{% endblock %}
 </head>
 
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid px-5">
-        <a class="navbar-brand" href="{% url 'games:game_list' %}"> <img src="{% static 'imgs/imagen_logo_base.png' %}" width="180" alt="Descripción"> GameHub</a>
 
+        <a class="navbar-brand d-flex align-items-center gap-2" href="{% url 'home:landing' %}">
+            <img src="{% static 'imgs/imagen_logo_base.png' %}" alt="Logo GameHub" class="logo-navbar">
+            <span>GameHub</span>
+        </a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
 
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'games:game_list' %}">Juegos</a>
-            </li>
-
-            {% if user.is_authenticated %}
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                        {{ user.username }}
-                    </a>
-
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="{% url 'users:profile' %}">Mi Perfil</a></li>
-                        <li><a class="dropdown-item" href="{% url 'users:my_games' %}">Mis Juegos</a></li>
-                        <li><a class="dropdown-item" href="{% url 'users:my_reviews' %}">Mis Reseñas</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{% url 'users:logout' %}">Logout</a></li>
-                    </ul>
-                </li>
-
-            {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'users:login' %}">Login</a>
+                    <a class="nav-link" href="{% url 'games:game_list' %}">Juegos</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'users:register' %}">Registro</a>
-                </li>
-            {% endif %}
 
-        </ul>
+                {% if user.is_authenticated %}
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            {{ user.username }}
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{% url 'users:profile' %}">Mi Perfil</a></li>
+                            <li><a class="dropdown-item" href="{% url 'users:my_games' %}">Mis Juegos</a></li>
+                            <li><a class="dropdown-item" href="{% url 'users:my_reviews' %}">Mis Reseñas</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'users:logout' %}">Logout</a></li>
+                        </ul>
+                    </li>
+
+                {% else %}
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'users:login' %}">Login</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'users:register' %}">Registro</a>
+                    </li>
+
+                {% endif %}
+
+            </ul>
+        </div>
     </div>
-</div>
-
-
 </nav>
 
-{% if messages %} <div class="container mt-3">
-{% for message in messages %} <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-{{ message }} <button type="button" class="btn-close" data-bs-dismiss="alert"></button> </div>
-{% endfor %} </div>
+{% if messages %}
+<div class="container mt-3">
+
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+
+</div>
 {% endif %}
 
 <main class="container-fluid px-5 py-4">
     {% block content %}{% endblock %}
 </main>
 
-<footer>
-    <div class="container text-center">
-        <p>&copy; 2026 GameHub. Desarrollado con Django.</p>
+<footer class="footer-gamehub">
+
+    <div class="container">
+
+        <div class="footer-top text-center">
+            <p class="footer-copy">
+                © 2026 GameHub · Proyecto desarrollado como Trabajo de Fin de Grado Superior (DAW)
+            </p>
+
+            <h6 class="footer-author">
+                Diseñado y desarrollado por Lucas Vázquez García.
+            </h6>
+        </div>
+
+        <div class="row footer-content mt-4">
+
+            <div class="col-md-4 col-12 mb-4">
+                <h5>GameHub</h5>
+                <p>
+                    Plataforma de videojuegos y reseñas creada por gamers para gamers.
+                </p>
+                <p>
+                    Descubre, valora y comparte videojuegos con la comunidad.
+                </p>
+            </div>
+
+            <div class="col-md-4 col-12"></div>
+
+            <div class="col-md-4 col-12 text-md-end text-start">
+                <h5>Redes Sociales</h5>
+
+                <p>
+                    <i class="bi bi-github" style="font-size: 1.5rem;"></i>
+                    <a href="https://github.com/lvazgar131" target="_blank" title="Github del Centro">
+                        Github del Centro
+                    </a>
+                    <br>
+                    <i class="bi bi-github" style="font-size: 1.5rem;"></i>
+                    <a href="https://github.com/lvazgar131DAW2" target="_blank" title="Mi Github" style="margin-left: 15px;">
+                        Mi Github
+                    </a>
+                </p>
+            </div>
+
+        </div>
+
     </div>
+
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -272,23 +140,30 @@
 <script>
     function getCookie(name) {
         let cookieValue = null;
+
         if (document.cookie && document.cookie !== '') {
             const cookies = document.cookie.split(';');
+
             for (let i = 0; i < cookies.length; i++) {
                 const cookie = cookies[i].trim();
+
                 if (cookie.substring(0, name.length + 1) === (name + '=')) {
                     cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                     break;
                 }
             }
         }
+
         return cookieValue;
     }
 
     function setCookie(name, value, days = 365) {
         const date = new Date();
+
         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+
         const expires = "expires=" + date.toUTCString();
+
         document.cookie = name + "=" + encodeURIComponent(value) + ";" + expires + ";path=/";
     }
 

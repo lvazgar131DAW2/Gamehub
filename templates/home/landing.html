@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}GameHub - Plataforma de Videojuegos{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero-section {
+        min-height: calc(100vh - 200px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 60px 20px;
+    }
+
+    .hero-content h1 {
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+        color: #ff7b00;
+    }
+
+    body.light-mode .hero-content h1 {
+        color: #ff7b00;
+    }
+
+    .hero-content p {
+        font-size: 1.3rem;
+        margin-bottom: 40px;
+        opacity: 0.9;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .features-section {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+        margin-bottom: 80px;
+    }
+
+    .feature-card {
+        padding: 30px;
+        border-radius: 12px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    body.dark-mode .feature-card {
+        background-color: #1c2a3a;
+        border: 1px solid rgba(255, 123, 0, 0.2);
+    }
+
+    body.light-mode .feature-card {
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-8px);
+        border-color: #ff7b00;
+    }
+
+    .feature-icon {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+        color: #ff7b00;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .feature-card h3 {
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+    }
+
+    .feature-card p {
+        margin: 0;
+        opacity: 0.85;
+    }
+
+    .cta-button {
+        display: inline-block;
+        padding: 15px 40px;
+        background-color: #ff7b00;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        margin-top: 10px;
+        margin-right: 10px;
+    }
+
+    .cta-button:hover {
+        background-color: #e66a00;
+        transform: scale(1.05);
+        color: white;
+    }
+
+    .secondary-button {
+        display: inline-block;
+        padding: 15px 40px;
+        background-color: transparent;
+        color: #ff7b00;
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: 2px solid #ff7b00;
+        cursor: pointer;
+        margin-top: 10px;
+        margin-right: 10px;
+    }
+
+    .secondary-button:hover {
+        background-color: #ff7b00;
+        color: white;
+        transform: scale(1.05);
+    }
+
+    @media (max-width: 768px) {
+        .hero-content h1 {
+            font-size: 2.2rem;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+        }
+
+        .features-section {
+            gap: 20px;
+        }
+
+        .cta-button,
+        .secondary-button {
+            display: block;
+            margin: 10px auto;
+            width: 80%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="hero-content">
+        <h1>Bienvenido a GameHub</h1>
+        <p>
+            La plataforma donde gamers descubren, comparten y evalúan sus videojuegos favoritos.
+        </p>
+        <a href="{% url 'games:game_list' %}" class="cta-button">Explorar Juegos</a>
+        {% if not user.is_authenticated %}
+            <a href="{% url 'users:register' %}" class="secondary-button">Registrarse</a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="container">
+    <div class="features-section">
+        <div class="feature-card">
+            <div class="feature-icon"><i class="bi bi-controller"></i></div>
+            <h3>Descubre Juegos</h3>
+            <p>Explora nuestro catálogo de videojuegos y encuentra tus próximos favoritos.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon"><i class="bi bi-star-fill"></i></div>
+            <h3>Comparte Reseñas</h3>
+            <p>Valora con estrellas y comparte tu opinión sobre los juegos que has jugado.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon"><i class="bi bi-person-circle"></i></div>
+            <h3>Tu Perfil</h3>
+            <p>Gestiona tus juegos, reseñas y personaliza tu experiencia en la comunidad.</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

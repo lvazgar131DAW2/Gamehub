@@ -28,3 +28,11 @@ class GameForm(forms.ModelForm):
             }),
         }
 
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['title'].label = 'Título'
+        self.fields['description'].label = 'Descripción'
+        self.fields['image'].label = 'Imagen'
+        self.fields['category'].label = 'Categoría'
+        self.fields['release_date'].label = 'Fecha de lanzamiento'

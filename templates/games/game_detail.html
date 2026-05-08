@@ -3,19 +3,24 @@
 {% block title %}{{ game.title }} - GameHub{% endblock %}
 
 {% block content %}
-<div class="row">
+<div class="row g-4">
+
     <div class="col-md-8">
+
         {% if game.image %}
-            <img src="{{ game.image.url }}" alt="{{ game.title }}" class="img-fluid rounded mb-4" style="max-height: 400px; object-fit: cover; width: 100%;">
+            <img src="{{ game.image.url }}" alt="{{ game.title }}"
+                 class="img-fluid rounded mb-4"
+                 style="max-height: 400px; object-fit: cover; width: 100%;">
         {% else %}
-            <div class="bg-secondary rounded mb-4" style="height: 400px; display: flex; align-items: center; justify-content: center; color: white;">
+            <div class="bg-secondary rounded mb-4"
+                 style="height: 400px; display: flex; align-items: center; justify-content: center; color: white;">
                 Sin imagen
             </div>
         {% endif %}
 
         <h1>{{ game.title }}</h1>
 
-        <p class="text-white">
+        <p>
             <strong>Por:</strong> {{ game.created_by.username }}<br>
             <strong>Categoría:</strong> {{ game.category|title }}<br>
             {% if game.release_date %}
@@ -55,8 +60,9 @@
                             <h5 class="card-title">{{ review.user.username }}</h5>
                             <span class="rating">{{ review.rating }}★</span>
                             <p class="card-text">{{ review.comment }}</p>
-                            <small class="text-white">{{ review.created_at|date:"d/m/Y H:i" }}</small>
+                            <small>{{ review.created_at|date:"d/m/Y H:i" }}</small>
                         </div>
+
                         {% if user == review.user %}
                             <div>
                                 <a href="{% url 'reviews:review_update' review.pk %}" class="btn btn-sm btn-warning">Editar</a>
@@ -67,26 +73,33 @@
                 </div>
             </div>
         {% empty %}
-            <p class="text-white">No hay reseñas aún</p>
+            <p>No hay reseñas aún</p>
         {% endfor %}
+
     </div>
 
     <div class="col-md-4">
-        <div class="card sticky-top" style="top: 20px;">
-            <div class="card-body">
-                <h5 class="card-title">Información</h5>
-                <p class="card-text">
-                    <strong>Reseñas:</strong> {{ game.reviews.all.count }}<br>
-                    <strong>Calificación:</strong> <span class="rating">{{ game.get_average_rating }}★</span><br>
-                    <strong>Categoría:</strong> {{ game.category|title }}<br>
-                    {% if game.release_date %}
-                        <strong>Lanzamiento:</strong> {{ game.release_date|date:"d/m/Y" }}
-                    {% endif %}
-                </p>
+
+        <div class="position-sticky" style="top: 90px; z-index: 1;">
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Información</h5>
+
+                    <p class="card-text">
+                        <strong>Reseñas:</strong> {{ game.reviews.all.count }}<br>
+                        <strong>Calificación:</strong> <span class="rating">{{ game.get_average_rating }}★</span><br>
+                        <strong>Categoría:</strong> {{ game.category|title }}<br>
+                        {% if game.release_date %}
+                            <strong>Lanzamiento:</strong> {{ game.release_date|date:"d/m/Y" }}
+                        {% endif %}
+                    </p>
+                </div>
             </div>
+
         </div>
+
     </div>
+
 </div>
 {% endblock %}
-
-

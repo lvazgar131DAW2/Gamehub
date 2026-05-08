@@ -4,10 +4,11 @@ Aplicación web para gestionar videojuegos y reseñas. Permite a los usuarios re
 
 ## Características principales
 
+- Landing page de bienvenida con presentación completa de características
 - Sistema completo de autenticación (registro, login, logout)
-- CRUD de videojuegos con imágenes
+- CRUD de videojuegos con imágenes, trailers de YouTube y clasificación PEGI
 - Sistema de reseñas con calificación usando estrellas interactivas (1-5)
-- Perfil de usuario con historial de actividad
+- Perfil de usuario con foto de perfil, historial de actividad
 - Búsqueda de juegos por título, descripción y categoría
 - Paginación en listados
 - Control de permisos (solo el autor puede editar/eliminar sus contenidos)
@@ -15,8 +16,10 @@ Aplicación web para gestionar videojuegos y reseñas. Permite a los usuarios re
 - Tema claro/oscuro con persistencia en cookies
 - Rating promedio calculado automáticamente
 - Logo y favicon personalizados
-- Estrellas interactivas con hover effect para rating
+- Estrellas interactivas con hover effect para rating (amarillo con gris)
 - Validación de formularios en frontend y backend
+- Trailers integrados de YouTube
+- Clasificaciones PEGI por edad
 
 ## Tecnología utilizada
 
@@ -104,6 +107,7 @@ python manage.py runserver
 ```
 GameHub/
 ├── config/                 # Configuración principal de Django
+├── home/                   # App de landing page
 ├── users/                  # App de gestión de usuarios
 ├── games/                  # App de gestión de videojuegos
 ├── reviews/                # App de reseñas
@@ -119,6 +123,16 @@ GameHub/
 ```
 
 ## Apps del proyecto
+
+### App Home
+Página de bienvenida y landing page.
+- Landing page principal con presentación visual atractiva
+- Sección hero con llamada a la acción
+- Descripción de 9 características principales (Catálogo, Reseñas, Perfil, Añadir juegos, Comunidad, Trailers, PEGI, Búsqueda, Modo oscuro)
+- Botones de navegación (Explorar Juegos, Registrarse)
+- Diseño responsive adaptado a móvil
+- Iconos Bootstrap para cada característica
+- Interfaz consistente con el resto de la aplicación
 
 ### App Users
 Gestiona el sistema de autenticación y perfil de usuario.
@@ -144,6 +158,9 @@ Sistema de reseñas y calificaciones.
 - Comentarios opcionales para cada reseña
 
 ## URLs principales
+
+### Home
+- `/` - Landing page de bienvenida
 
 ### Juegos
 - `/juegos/` - Listado de todos los juegos

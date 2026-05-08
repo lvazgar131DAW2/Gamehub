@@ -38,7 +38,6 @@ class GameAdmin(admin.ModelAdmin):
     actions = ['mark_as_featured', 'clear_image']
 
     def title_colored(self, obj):
-        """Muestra el título con color según categoría"""
         colors = {
             'accion': '#FF6B6B',
             'aventura': '#4ECDC4',

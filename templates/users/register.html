@@ -23,7 +23,7 @@
                 <h2 class="card-title text-center mb-4">Registro</h2>
 
                 <form method="post">
-                    {%     <!-- Paginación -->csrf_token %}
+                    {% csrf_token %}
 
                     {% for field in form %}
                         <div class="mb-3">
