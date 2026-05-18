@@ -144,7 +144,7 @@ Gestiona el sistema de autenticación y perfil de usuario.
 ### App Games
 Gestión completa de videojuegos (CRUD).
 - Crear, editar, eliminar juegos
-- Campos: título, descripción, imagen, categoría, fecha de lanzamiento
+- Campos: título, descripción, imagen, categoría, fecha de lanzamiento y un trailer de YouTube
 - Solo el autor puede editar/eliminar sus juegos
 - Listado paginado con búsqueda
 

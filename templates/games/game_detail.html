@@ -1,20 +1,52 @@
 {% extends "base.html" %}
 
-{% block title %}{{ game.title }} - GameHub{% endblock %}
+{% block title %}
+    {{ game.title }} - GameHub
+{% endblock %}
 
 {% block content %}
+
 <div class="row g-4">
 
     <div class="col-md-8">
 
         {% if game.image %}
-            <img src="{{ game.image.url }}" alt="{{ game.title }}"
-                 class="img-fluid rounded mb-4"
-                 style="max-height: 400px; object-fit: cover; width: 100%;">
+            <img
+                src="{{ game.image.url }}"
+                alt="{{ game.title }}"
+                class="img-fluid rounded mb-4"
+                style="max-height: 400px; object-fit: cover; width: 100%;"
+            >
         {% else %}
-            <div class="bg-secondary rounded mb-4"
-                 style="height: 400px; display: flex; align-items: center; justify-content: center; color: white;">
+            <div
+                class="bg-secondary rounded mb-4"
+                style="height: 400px; display: flex; align-items: center; justify-content: center; color: white;"
+            >
                 Sin imagen
+            </div>
+        {% endif %}
+
+        {% if game.trailer_url %}
+            <div class="mb-4">
+                <h3 class="mb-3">Trailer</h3>
+                <div class="ratio ratio-16x9">
+                    {% if game.embed_url %}
+                        <!-- Iframe embebido -->
+                        <iframe
+                            src="{{ game.embed_url }}"
+                            title="Trailer"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    {% else %}
+                        <!-- Video no embebible: botón a YouTube -->
+                        <div class="d-flex justify-content-center align-items-center" style="height: 100%; background-color: #000;">
+                            <a href="{{ game.trailer_url }}" target="_blank" class="btn btn-primary">
+                                Ver Trailer en YouTube
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
             </div>
         {% endif %}
 
@@ -79,13 +111,10 @@
     </div>
 
     <div class="col-md-4">
-
         <div class="position-sticky" style="top: 90px; z-index: 1;">
-
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Información</h5>
-
                     <p class="card-text">
                         <strong>Reseñas:</strong> {{ game.reviews.all.count }}<br>
                         <strong>Calificación:</strong> <span class="rating">{{ game.get_average_rating }}★</span><br>
@@ -96,10 +125,9 @@
                     </p>
                 </div>
             </div>
-
         </div>
-
     </div>
 
 </div>
+
 {% endblock %}
