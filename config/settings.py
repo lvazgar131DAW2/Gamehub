@@ -11,7 +11,7 @@ SECRET_KEY = config(
     default='django-insecure-99%c335oh$$2g+zxm(+t$0lf%6vzf$fdpsh56o@=t-=al7f&)*'
 )
 
-DEBUG = os.getenv("DEBUG") == "True"
+DEBUG = "True"
 
 ALLOWED_HOSTS = [
     "gamehub-87wy.onrender.com"
