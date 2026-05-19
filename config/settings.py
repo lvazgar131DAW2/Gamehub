@@ -25,8 +25,13 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-99%c335oh$$2g+zxm(+t$
 
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = [
+    "gamehub-87wy.onrender.com"
+]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://gamehub-87wy.onrender.com"
+]
 
 
 INSTALLED_APPS = [
