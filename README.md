@@ -29,9 +29,16 @@ Aplicación web para gestionar videojuegos y reseñas. Permite a los usuarios re
 - Python 3.12
 - Docker y Docker Compose
 
-## Perfil de administrador
+
+## Perfil de administrador en local
 - Usuario: admin
 - Contraseña: admin
+
+
+## Perfil de administrador en web
+- Usuario: admin
+- Email: admin@gmail.com
+- Contraseña: admin1234
 
 
 ### Requisitos previos
