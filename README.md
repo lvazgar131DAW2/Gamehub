@@ -29,7 +29,10 @@ Aplicación web para gestionar videojuegos y reseñas. Permite a los usuarios re
 - Python 3.12
 - Docker y Docker Compose
 
-## Instalación y ejecución
+## Perfil de administrador
+- Usuario: admin
+- Contraseña: admin
+
 
 ### Requisitos previos
 - Docker
