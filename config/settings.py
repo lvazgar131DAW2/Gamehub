@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-99%c335oh$$2g+zxm(+t$0lf%6vzf$fdpsh56o@=t-=al7f&)*')
 
 
-DEBUG = True
+DEBUG = os.getenv("DEBUG") == "True"
 
 ALLOWED_HOSTS = [
     "gamehub-87wy.onrender.com"
