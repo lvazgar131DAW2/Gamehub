@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Avg
 import re
+from cloudinary.models import CloudinaryField
 
 class Game(models.Model):
 
@@ -17,7 +18,7 @@ class Game(models.Model):
 
     title = models.CharField(max_length=200)
     description = models.TextField()
-    image = models.ImageField(upload_to='games/', null=True, blank=True)
+    image = CloudinaryField('image', blank=True, null=True)
     trailer_url = models.URLField(blank=True, null=True)
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
     release_date = models.DateField(null=True, blank=True)
