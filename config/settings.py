@@ -14,7 +14,9 @@ SECRET_KEY = config(
 DEBUG = os.getenv("DEBUG") == "True"
 
 ALLOWED_HOSTS = [
-    "gamehub-87wy.onrender.com"
+    "gamehub-87wy.onrender.com",
+    "localhost",
+    "127.0.0.1",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
